@@ -29,7 +29,7 @@ class AuthController extends Controller
 
         Mail::to($request->email)->send(new SentVerificationCodeMail($randomCode));
 
-        return response()->json(['message' => 'Email verified successfully']);
+        return response()->json(['message' => 'Email sent successfully']);
     }
 
     function verify(Request $request)

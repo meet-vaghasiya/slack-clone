@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\MemberController;
+use App\Http\Controllers\WorkspaceController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -21,3 +23,11 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('register/verify', [AuthController::class, 'verify']);
+
+//todo -> replace all below router to AUTH router, and also create group add prefix later
+
+//workspace 
+Route::post('workspaces', [WorkspaceController::class, 'store']);
+
+//member
+Route::post('workspaces/{workspace}/members', [MemberController::class, 'store']);
