@@ -11,13 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('invitations', function (Blueprint $table) {
             $table->id();
-            $table->string('email', 50)->unique();
-            $table->string('verification_code', 10)->unique();
+            $table->foreignId('workspace_id')->constrained('workspaces');
+            $table->string('code');
             $table->boolean('is_verified')->default(0);
-            $table->timestamp('expires_at')->nullable();
-            $table->rememberToken();
+            $table->string('email', 50);
+            $table->timestamp('sent_at');
+            $table->timestamp('verified_at')->nullable();
             $table->timestamps();
         });
     }
@@ -27,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('invitations');
     }
 };
