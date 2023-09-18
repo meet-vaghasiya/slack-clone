@@ -4,15 +4,17 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateWorkspaceRequest;
 use App\Models\Workspace;
+use Illuminate\Support\Facades\Auth;
 
 class WorkspaceController extends Controller
 {
     public function store(CreateWorkspaceRequest $request)
     {
+
         try {
             $workspace = Workspace::create([
                 'name' => $request->input('name'),
-                'user_id' => 2  // todo: replace with Auth::id()
+                'user_id' => Auth::id()
             ]);
 
             // Return a response indicating success

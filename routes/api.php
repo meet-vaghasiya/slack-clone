@@ -26,8 +26,16 @@ Route::post('register/verify', [AuthController::class, 'verify']);
 
 //todo -> replace all below router to AUTH router, and also create group add prefix later
 
+
+Route::group(['prefix' => 'workspaces', 'middleware' => ['auth:sanctum']], function () {
+
+    Route::controller(WorkspaceController::class)->group(function () {
+        Route::post('/', 'store');
+    });
+
+    Route::post('/{workspace}/members', [MemberController::class, 'store']);
+});
+
 //workspace 
-Route::post('workspaces', [WorkspaceController::class, 'store']);
 
 //member
-Route::post('workspaces/{workspace}/members', [MemberController::class, 'store']);

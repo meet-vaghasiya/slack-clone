@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CreateMemberRequest;
 use App\Models\Member;
 use App\Models\Workspace;
+use Illuminate\Support\Facades\Auth;
 
 class MemberController extends Controller
 {
@@ -12,7 +13,7 @@ class MemberController extends Controller
     {
         try {
             $workspaceMember = Member::create([
-                'user_id' => 2,   //todo replace with auth id
+                'user_id' => Auth::id(),   //todo replace with auth id
                 'workspace_id' => $workspace->id,
                 'name' => $request->name,
                 'is_admin' => 1
