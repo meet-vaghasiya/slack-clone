@@ -10,19 +10,21 @@ use App\Mail\SentVerificationCodeMail;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\ValidationException;
+use PhpParser\Node\Stmt\TryCatch;
 
 class AuthController extends Controller
 {
-    public  function register(Request $request)
+    public  function signin(Request $request)
     {
 
         $request->validate([
-            'email' => 'required|email:unique:users'
+            'email' => 'required|email'
         ]);
         $randomCode = Str::random(6);
         $expiresAt = Carbon::now()->addMinutes(Config::get('const.otp_valid_till'));
-        User::create([
-            'email' => $request->email,
+
+        User::updateOrCreate(['email' => $request->email], [
             'verification_code' => $randomCode,
             'expires_at' =>  $expiresAt
         ]);
@@ -36,7 +38,7 @@ class AuthController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'email' => 'required|email|exists:users',
-            'code' => 'required|exists:users,verification_code',
+            'otp' => 'required|exists:users,verification_code',
         ]);
         if ($validator->fails()) {
             return response()->json(['error' => $validator->errors()], 422);
@@ -56,5 +58,17 @@ class AuthController extends Controller
             'is_verified' => 1
         ]);
         return response()->json(['message' => 'User verified successfully', 'token'  => $user->createToken("API TOKEN")->plainTextToken]);
+    }
+
+    function isValid(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'email' => 'required',
+        ]);
+        if ($validator->fails()) {
+            throw new ValidationException($validator);
+        }
+        $isExist =   User::where(['email' => $request->email, 'is_verified' => 1])->exists();
+        return response()->json(['exist' => $isExist]);
     }
 }

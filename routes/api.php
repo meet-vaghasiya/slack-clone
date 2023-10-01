@@ -21,8 +21,10 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::post('/register', [AuthController::class, 'register']);
+Route::post('/signin', [AuthController::class, 'signin']);
 Route::post('register/verify', [AuthController::class, 'verify']);
+Route::post('is-email-exist', [AuthController::class, 'isValid']);
+
 
 //todo -> replace all below router to AUTH router, and also create group add prefix later
 
