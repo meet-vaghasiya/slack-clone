@@ -23,6 +23,7 @@ class CreateMemberRequest extends FormRequest
     {
         return [
             'name' => ['required'],
+            'avatar' => 'file|mimes:jpg,jpeg,png,gif|max:1024'
         ];
     }
 }

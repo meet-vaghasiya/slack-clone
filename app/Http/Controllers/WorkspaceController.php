@@ -18,7 +18,7 @@ class WorkspaceController extends Controller
             ]);
 
             // Return a response indicating success
-            return response()->json(['message' => 'Workspace created successfully'], 201);
+            return response()->json(['message' => 'Workspace created successfully', 'workspace' => $workspace], 201);  // convert this response to apiResouce for json
         } catch (\Exception $e) {
             return response()->json(['message' => 'Workspace creation failed', 'error' => $e->getMessage()], 500);
         }
