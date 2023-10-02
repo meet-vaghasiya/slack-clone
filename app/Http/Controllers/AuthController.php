@@ -54,7 +54,7 @@ class AuthController extends Controller
         User::where('email', $request->email)->update([
             'is_verified' => 1
         ]);
-        return response()->json(['message' => 'User verified successfully', 'token'  => $user->createToken("API TOKEN")->plainTextToken]);
+        return response()->json(['message' => 'User verified successfully', 'token'  => $user->createToken("API TOKEN")->plainTextToken, 'user' => $user]);
     }
 
     function isValid(Request $request)

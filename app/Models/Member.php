@@ -14,7 +14,7 @@ class Member extends Model
 
     public function getAvatarAttribute($value)
     {
-        return Storage::url($value);
+        return $value ? Storage::url($value) : null;
     }
 
     function workspace()

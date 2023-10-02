@@ -19,6 +19,13 @@ use function Laravel\Prompts\error;
 
 class MemberController extends Controller
 {
+    function index(Request $request, $workspaceId)
+    {
+        $members =  Member::select(['id', 'name', 'avatar'])->where('workspace_id', $workspaceId)->get();
+        return response()->json(['message' => 'User added to the workspace', 'data' => $members], 200);
+    }
+
+
     function store(CreateMemberRequest $request, Workspace $workspace)
     {
         $url = null;
@@ -86,6 +93,24 @@ class MemberController extends Controller
             }
 
             return response()->json(['message' => 'Email sent successfully']);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Adding member failed', 'error' => $e->getMessage()], 500);
+        }
+    }
+
+    function acceptInvitation(Request $request, $token)
+    {
+        try {
+            $request['token'] =  $token;
+
+            $request->validate([
+                'token' => 'required|exists:invitations,token'
+            ]);
+
+            $invitation = Invitation::where('token', $token)->first();
+            $user = User::where('email', $invitation->email)->first();
+            $workspace = Workspace::find($invitation->workspace_id);
+            return response()->json(['user' => $user, 'workspace' => $workspace]);
         } catch (\Exception $e) {
             return response()->json(['message' => 'Adding member failed', 'error' => $e->getMessage()], 500);
         }

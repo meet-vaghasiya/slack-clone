@@ -26,6 +26,7 @@ Route::post('/signin', [AuthController::class, 'signin']);
 Route::post('register/verify', [AuthController::class, 'verify']);
 Route::post('is-email-exist', [AuthController::class, 'isValid']);
 
+Route::get('/accept-invitation/{token}', [MemberController::class, 'acceptInvitation']);
 
 //todo -> replace all below router to AUTH router, and also create group add prefix later
 
@@ -38,8 +39,9 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         });
 
         Route::post('/{workspace}/members', [MemberController::class, 'store']);
+        Route::get('/{workspace}/members', [MemberController::class, 'index']);
+
         Route::post('/{workspace_id}/invites', [MemberController::class, 'invites']);
-        Route::post('accept-invitation/{token}', [MemberController::class, 'acceptInvitation']);
     });
 });
 
