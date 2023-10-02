@@ -5,6 +5,7 @@ use App\Http\Controllers\MemberController;
 use App\Http\Controllers\WorkspaceController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use PhpParser\Node\Expr\FuncCall;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,13 +30,17 @@ Route::post('is-email-exist', [AuthController::class, 'isValid']);
 //todo -> replace all below router to AUTH router, and also create group add prefix later
 
 
-Route::group(['prefix' => 'workspaces', 'middleware' => ['auth:sanctum']], function () {
+Route::group(['middleware' => ['auth:sanctum']], function () {
 
-    Route::controller(WorkspaceController::class)->group(function () {
-        Route::post('/', 'store');
+    Route::group(['prefix' => 'workspaces'], function () {
+        Route::controller(WorkspaceController::class)->group(function () {
+            Route::post('/', 'store');
+        });
+
+        Route::post('/{workspace}/members', [MemberController::class, 'store']);
+        Route::post('/{workspace_id}/invites', [MemberController::class, 'invites']);
+        Route::post('accept-invitation/{token}', [MemberController::class, 'acceptInvitation']);
     });
-
-    Route::post('/{workspace}/members', [MemberController::class, 'store']);
 });
 
 //workspace 

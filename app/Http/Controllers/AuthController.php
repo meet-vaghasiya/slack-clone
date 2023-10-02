@@ -40,9 +40,6 @@ class AuthController extends Controller
             'email' => 'required|email|exists:users',
             'otp' => 'required|exists:users,verification_code',
         ]);
-        if ($validator->fails()) {
-            return response()->json(['error' => $validator->errors()], 422);
-        }
 
         $user = User::where('email', $request->email)->first();
 

@@ -14,11 +14,9 @@ return new class extends Migration
         Schema::create('invitations', function (Blueprint $table) {
             $table->id();
             $table->foreignId('workspace_id')->constrained('workspaces');
-            $table->string('code');
-            $table->boolean('is_verified')->default(0);
+            $table->string('token', 50);
+            $table->boolean('has_accepted')->default(0);
             $table->string('email', 50);
-            $table->timestamp('sent_at');
-            $table->timestamp('verified_at')->nullable();
             $table->timestamps();
         });
     }
