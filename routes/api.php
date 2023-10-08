@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\MemberController;
+use App\Http\Controllers\TestController;
 use App\Http\Controllers\WorkspaceController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -29,7 +30,7 @@ Route::post('is-email-exist', [AuthController::class, 'isValid']);
 Route::get('/accept-invitation/{token}', [MemberController::class, 'acceptInvitation']);
 
 //todo -> replace all below router to AUTH router, and also create group add prefix later
-
+Route::post('/test', [TestController::class, 'index']);
 
 Route::group(['middleware' => ['auth:sanctum']], function () {
 
