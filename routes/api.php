@@ -2,8 +2,10 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\MemberController;
+use App\Http\Controllers\MessageController;
 use App\Http\Controllers\TestController;
 use App\Http\Controllers\WorkspaceController;
+use App\Models\Message;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use PhpParser\Node\Expr\FuncCall;
@@ -34,6 +36,8 @@ Route::post('/test', [TestController::class, 'index']);
 
 Route::group(['middleware' => ['auth:sanctum']], function () {
 
+    Route::get('/auth-user', [AuthController::class, 'index']);
+
     Route::group(['prefix' => 'workspaces'], function () {
         Route::controller(WorkspaceController::class)->group(function () {
             Route::post('/', 'store');
@@ -43,6 +47,10 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::get('/{workspace}/members', [MemberController::class, 'index']);
 
         Route::post('/{workspace_id}/invites', [MemberController::class, 'invites']);
+
+
+        Route::get('/{workspace_id}/messages/{other_user_id}', [MessageController::class, 'index']);
+        Route::post('/{workspace_id}/messages', [MessageController::class, 'create']);
     });
 });
 

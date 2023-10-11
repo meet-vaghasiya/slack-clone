@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\SentVerificationCodeMail;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
@@ -15,6 +16,11 @@ use PhpParser\Node\Stmt\TryCatch;
 
 class AuthController extends Controller
 {
+    public function index()
+    {
+        return response()->json(['user' => Auth::user()]);
+    }
+
     public  function signin(Request $request)
     {
 

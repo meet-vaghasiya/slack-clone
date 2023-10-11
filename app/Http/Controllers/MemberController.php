@@ -21,7 +21,7 @@ class MemberController extends Controller
 {
     function index(Request $request, $workspaceId)
     {
-        $members =  Member::select(['id', 'name', 'avatar'])->where('workspace_id', $workspaceId)->get();
+        $members =  Member::select(['id', 'name', 'avatar', 'user_id'])->where('workspace_id', $workspaceId)->get();
         return response()->json(['message' => 'User added to the workspace', 'data' => $members], 200);
     }
 
