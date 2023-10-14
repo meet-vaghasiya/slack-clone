@@ -25,4 +25,9 @@ class Member extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function channels()
+    {
+        return $this->belongsToMany(Channel::class)->withTimestamps();
+    }
 }

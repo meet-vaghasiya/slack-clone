@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ChannelController;
 use App\Http\Controllers\MemberController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\TestController;
@@ -49,8 +50,18 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::post('/{workspace_id}/invites', [MemberController::class, 'invites']);
 
 
+        // INFO: members
         Route::get('/{workspace_id}/messages/{other_user_id}', [MessageController::class, 'index']);
         Route::post('/{workspace_id}/messages', [MessageController::class, 'create']);
+
+
+        // info: channels
+        Route::post('{workspace}/channels/is-valid', [ChannelController::class, 'isValid']);
+
+        Route::get('{workspace}/channels', [ChannelController::class, 'index']);
+        Route::post('{workspace}/channels', [ChannelController::class, 'create']);
+        Route::put('{workspace}/channels/{channel}', [ChannelController::class, 'update']);
+        Route::post('{workspace}/channels/{channel}/members', [ChannelController::class, 'addMembers']);
     });
 });
 

@@ -18,4 +18,8 @@ class Workspace extends Model
     {
         return $this->hasMany(Member::class);
     }
+    public function channels()
+    {
+        return $this->hasMany(Channel::class);
+    }
 }

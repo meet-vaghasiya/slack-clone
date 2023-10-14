@@ -36,7 +36,7 @@ class MemberController extends Controller
 
         try {
             $workspaceMember = Member::create([
-                'user_id' => Auth::id(),
+                'user_id' => Auth::id(), // need to change with member id 
                 'workspace_id' => $workspace->id,
                 'name' => $request->name,
                 'is_admin' => $workspace->user->id == Auth::id(),
